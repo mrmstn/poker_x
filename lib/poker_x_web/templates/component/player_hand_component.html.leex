@@ -1,0 +1,64 @@
+<div class="flex flex-wrap w-full" id="hand">
+    <div>
+        ACTIONS
+        <%= if @can_leave? do %>
+        <div>
+            <button type="button" class="btn w-32" phx-click="leave" phx-target="#hand">Leave</button>
+        </div>
+        <%= end %>
+        <!--
+        <div>
+            <button type="button" class="btn w-32" phx-click="buy_in" phx-value-amount="400" phx-target="#hand">Buy in (400)</button>
+        </div>
+        <div>
+            <button type="button" class="btn w-32" phx-click="cash_out" phx-target="#hand">
+                Cash out
+            </button>
+        </div>
+        -->
+
+        <%= if @active? do %>
+        <%= if @phase != :blinds do %>
+        <div>
+            <button type="button" class="btn w-32" phx-target="#hand" phx-click="bet"
+                    phx-value-amount="<%= @to_call + 20 %>">
+                <%= if @hand_state.position == 0 and @to_call <= 0 do %>
+                Bet (20)
+                <%= else %>
+                Raise (20)
+                <%= end %>
+            </button>
+        </div>
+        <%= end%>
+
+        <%= if @to_call > 0 do %>
+        <div>
+            <button type="button" class="btn w-32" phx-target="#hand" phx-click="bet"
+                    phx-value-amount="<%= @to_call %>">
+                Call <%= @to_call %>
+            </button>
+        </div>
+        <%= else %>
+        <div>
+            <button type="button" class="btn w-32" phx-target="#hand" phx-click="check">
+                Check
+            </button>
+        </div>
+        <%= end %>
+        <%= if @phase != :blinds do %>
+        <div>
+            <button type="button" class="btn w-32" phx-target="#hand" phx-click="fold">
+                Fold
+            </button>
+        </div>
+        <%= end%>
+        <%= end %>
+    </div>
+    <div class="flex flex-1">
+        <div class="m-auto flex">
+            <%= for card <- @hand do %>
+            <div class="<%= PokerXWeb.TableView.card_to_class(card) %> shadow-md overflow-hidden rounded-lg"></div>
+            <%= end%>
+        </div>
+    </div>
+</div>

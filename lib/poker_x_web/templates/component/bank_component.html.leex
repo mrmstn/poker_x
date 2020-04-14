@@ -1,0 +1,19 @@
+<div class="bg-white shadow overflow-hidden rounded-md px-4 py-2" id="<%= @id %>">
+    <h1 class="text leading-6 text-lg text-gray-800 border-b mb-3">
+        Bank Actions
+    </h1>
+    <div>
+        Account Owner: <span class="font-semibold"><%= @id %></span>
+    </div>
+    <div>
+        Bank Balance: <span class="font-semibold <%= if (@balance > 0), do: 'text-green-500', else: 'text-red-500' %>"><%= @balance %></span>
+    </div>
+    <div class="mt-4">
+        <button type="button" class="btn" phx-click="bank_add_funds" phx-value-amount="1000"
+                phx-target="#<%= @id %>">Add Funds (1'000)
+        </button>
+        <button type="button" class="btn" phx-click="bank_remove_funds" phx-value-amount="100"
+                phx-target="#<%= @id %>">Remove Funds (100)
+        </button>
+    </div>
+</div>

@@ -1,0 +1,26 @@
+/* This file is for your main application css. */
+
+/*@import "./phoenix.css";*/
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+@import "./custom.css";
+@import "./cards.css";
+
+.btn{
+    @apply inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600  transition ease-in-out duration-150
+}
+
+.btn:hover {
+    @apply bg-indigo-500
+}
+
+.btn:active {
+    @apply bg-indigo-700
+}
+
+.btn:focus {
+    @apply outline-none border-indigo-700 shadow-outline-indigo
+}
+

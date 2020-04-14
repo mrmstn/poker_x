@@ -1,0 +1,69 @@
+<div class="bg-white overflow-hidden sm:rounded-lg sm:shadow">
+    <div class="bg-white px-4 py-5 border-b border-gray-200 sm:px-6">
+        <div class="-ml-4 -mt-2 flex items-center justify-between flex-wrap sm:flex-no-wrap">
+            <div class="ml-4 mt-2">
+                <h3 class="text-lg leading-6 font-medium text-gray-900">
+                    Poker Tables
+                </h3>
+            </div>
+            <div class="ml-4 mt-2 flex-shrink-0">
+              <span class="inline-flex rounded-md shadow-sm">
+                <button type="button" phx-click="toggle_modal"
+                        class="relative inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:shadow-outline-indigo focus:border-indigo-700 active:bg-indigo-700">
+                  Create new Table
+                </button>
+              </span>
+            </div>
+        </div>
+    </div>
+    <ul>
+        <%= for {table, hand_state} <- @tables do %>
+        <li>
+            <a data-phx-link="redirect" data-phx-link-state="push" href="<%= Routes.live_path(@socket, PokerXWeb.TableLive.Show, table.table) %>"
+               class="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out">
+                <div class="px-4 py-4 sm:px-6">
+                    <div class="flex items-center justify-between">
+                        <div class="text-sm leading-5 font-medium text-indigo-600 truncate">
+                            <%= table.table %>
+                        </div>
+                        <div class="ml-2 flex-shrink-0 flex">
+                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                      SB: <%= elem(hand_state.blinds, 0) %>$ / BB: <%= elem(hand_state.blinds, 1) %>$
+                    </span>
+                        </div>
+                    </div>
+                    <div class="mt-2 flex justify-between">
+                        <div class="sm:flex">
+                            <div class="mr-6 flex items-center text-sm leading-5 text-gray-500">
+                                <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" fill="currentColor"
+                                     viewBox="0 0 20 20">
+                                    <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"></path>
+                                </svg>
+                                <%= table.players |> length %> of <%= table.num_seats %>
+                            </div>
+                        </div>
+                        <div class="flex items-center text-sm leading-5 text-gray-500">
+                            <i class="fas fa-coins flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"></i>
+                            Buy In 400$
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </li>
+        <% end %>
+    </ul>
+</div>
+
+<%= if @show_modal do %>
+<%= live_component(@socket,
+DemoWeb.LiveComponent.TableModal,
+id: "confirm-boom",
+title: "Go Boom",
+body: "Are you sure you want to crash the counter?",
+right_button: "Sure",
+right_button_action: "crash",
+right_button_param: "boom",
+left_button: "Yikes, No!",
+left_button_action: "cancel-crash")
+%>
+<% end %>
