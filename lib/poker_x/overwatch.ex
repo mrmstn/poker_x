@@ -1,4 +1,5 @@
 defmodule PokerX.Overwatch do
+  @spec tables :: [binary()]
   def tables do
     :global.registered_names()
     |> Enum.filter(fn

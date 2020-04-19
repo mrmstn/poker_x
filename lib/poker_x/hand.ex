@@ -11,21 +11,22 @@ defmodule PokerX.Hand do
             blinds: {20, 40},
             posted_blinds: 0
 
-  @phases [
-    :initial,
-    :blinds,
-    :pre_flop,
-    :flop,
-    :turn,
-    :river,
-    :showdown
-  ]
+  # @phases [
+  #   :initial,
+  #   :blinds,
+  #   :pre_flop,
+  #   :flop,
+  #   :turn,
+  #   :river,
+  #   :showdown
+  # ]
 
-  def start_link(hand, table, config \\ []) do
-    GenServer.start_link(__MODULE__, [hand, table, config], name: via_tuple(hand))
+  def start_link([hand, table, config]) do
+    table_name = PokerX.Table.via_tuple(table)
+    GenServer.start_link(__MODULE__, [hand, table_name, config], name: via_tuple(hand))
   end
 
-  defp via_tuple(hand), do: {:via, :global, {:hand, hand}}
+  def via_tuple(hand), do: {:via, :global, {:hand, hand}}
 
   def whereis(hand) do
     :global.whereis_name({:hand, hand})
@@ -59,13 +60,9 @@ defmodule PokerX.Hand do
     GenServer.call(hand, :get_state)
   end
 
-  def get_options(hand, player) do
-    GenServer.call(hand, :get_options)
-  end
-
   ### GenServer callbacks
   def init([hand, table, config]) do
-    seed_random_number_generator
+    seed_random_number_generator()
 
     {:ok,
      %__MODULE__{
@@ -309,7 +306,6 @@ defmodule PokerX.Hand do
 
   defp advance_phase(state = %{phase: :river}) do
     ranked_players =
-      [{winning_ranking, _, _, _} | _] =
       state.players
       |> Stream.map(fn player ->
         {ranking, hand} = PokerX.Ranking.best_possible_hand(state.board, player.hand)
@@ -353,26 +349,18 @@ defmodule PokerX.Hand do
     do: declare_winner(winner, state)
 
   defp declare_winner(winners, state) when is_list(winners) do
-    IO.inspect("The winners are: #{inspect(winners)}")
-
+    # TODO: Split pot!
     Map.put(state, :finished, true)
   end
 
   defp declare_winner(winner, state) do
-    IO.inspect("The winner is: #{inspect(winner)}")
-
     PokerX.Table.update_balance(state.table, winner.id, state.pot)
-
     Map.put(state, :finished, true)
   end
 
   defp seed_random_number_generator do
     <<a::size(32), b::size(32), c::size(32)>> = :crypto.strong_rand_bytes(12)
     :random.seed({a, b, c})
-  end
-
-  defp deck do
-    Application.get_env(:gen_poker, :deck)
   end
 
   defp reset_game(state) do

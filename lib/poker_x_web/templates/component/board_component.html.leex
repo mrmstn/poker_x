@@ -8,13 +8,13 @@
         <div>
           <div class="card card-back"></div>
         </div>
-      <%= end %>
+      <% end %>
       <div class="flex flex-wrap sm:m-auto">
         <%= for card <- @board do %>
           <div class="md:w-1/5 m-auto pt-2">
             <div class="<%= PokerXWeb.TableView.card_to_class(card) %> md:mx-0.5 shadow-md overflow-hidden rounded-lg"></div>
           </div>
-        <%= end %>
+        <% end %>
       </div>
     </div>
     <div class="text-center my-4">
@@ -32,16 +32,16 @@
               <div class="flex mx-auto">
                 <%= for card <- (cards -- @hand_state.board) do %>
                   <div class="mx-1 flex-wrap <%= PokerXWeb.TableView.card_to_class(card) %> shadow-md overflow-hidden rounded-lg border-2 border-green-300"></div>
-                <%= end%>
+                <% end %>
                 <%= for card <- (player.hand -- (cards -- @hand_state.board)) do %>
                   <div class="mx-1 flex-wrap <%= PokerXWeb.TableView.card_to_class(card) %> shadow-md overflow-hidden rounded-lg border-2 border-gray-300"></div>
-                <%= end%>
+                <% end %>
               </div>
             </div>
             <div class="text-center text-xl font-bold"><%= description %></div>
           </div>
         </div>
-      <%= end %>
+      <% end %>
     </div>
-  <%= end %>
+  <% end %>
 </div>

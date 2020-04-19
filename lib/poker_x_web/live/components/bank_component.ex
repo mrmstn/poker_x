@@ -1,6 +1,7 @@
 defmodule PokerXWeb.BankComponent do
   use Phoenix.LiveComponent
 
+  @impl true
   def mount(socket) do
     {:ok, socket}
   end
@@ -14,17 +15,20 @@ defmodule PokerXWeb.BankComponent do
     end)
   end
 
+  @impl true
   def render(assigns),
     do:
       PokerXWeb.ComponentView.render(
         "bank_component.html",
-        assigns |> IO.inspect(limit: :infinity, width: :infinity)
+        assigns
       )
 
-  def update(%{id: _id} = assigns, socket) do
+  @impl true
+  def update(assigns, socket) do
     {:ok, assign(socket, assigns)}
   end
 
+  @impl true
   def handle_event("bank_add_funds", %{"amount" => amount}, socket) do
     {amount, ""} = Integer.parse(amount)
 

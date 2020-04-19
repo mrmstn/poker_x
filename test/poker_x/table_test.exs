@@ -8,7 +8,7 @@ defmodule PokerX.TableTest do
     PokerX.Bank.start_link()
     players = :ets.new(:players, [:public])
 
-    {:ok, pid} = Table.start_link(:test_table, nil, players, @num_seats)
+    {:ok, pid} = Table.start_link([:test_table, nil, players, @num_seats])
     {:ok, [manager: pid]}
   end
 

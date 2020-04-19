@@ -1,8 +1,9 @@
 defmodule PokerX.RankingTest do
   use ExUnit.Case, async: true
+  alias PokerX.Deck.Card
 
   def cards_from_string(hand) do
-    hand |> String.split(" ") |> Enum.map(&PokerX.Deck.Card.from_string/1)
+    hand |> String.split(" ") |> Enum.map(&Card.from_string/1)
   end
 
   def assert_rank(hand, rank) do

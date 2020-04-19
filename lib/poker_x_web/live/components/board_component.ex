@@ -1,6 +1,5 @@
 defmodule PokerXWeb.BoardComponent do
   use Phoenix.LiveComponent
-  import PokerXWeb.LiveComponentHelper
 
   def mount(socket) do
     {:ok, socket}

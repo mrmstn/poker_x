@@ -25,7 +25,7 @@ defmodule PokerX.Deck do
 
   @spec new() :: [Card.t()]
   def new do
-    for rank <- ranks, suit <- suits do
+    for rank <- ranks(), suit <- suits() do
       %Card{rank: rank, suit: suit}
     end
     |> Enum.shuffle()

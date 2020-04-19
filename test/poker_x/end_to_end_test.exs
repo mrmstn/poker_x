@@ -1,6 +1,8 @@
 defmodule PokerX.EndToEndTest do
   use ExUnit.Case, async: false
 
+  alias PokerX.Deck.Card
+
   defp cards do
     # player three's cards
     # player one's cards
@@ -11,7 +13,7 @@ defmodule PokerX.EndToEndTest do
        "Js Ts " <>
        "Ad 9h 8s Jh Qd")
     |> String.split()
-    |> Enum.map(&PokerX.Deck.Card.from_string/1)
+    |> Enum.map(&Card.from_string/1)
   end
 
   setup do
@@ -45,14 +47,14 @@ defmodule PokerX.EndToEndTest do
     :timer.sleep(100)
     table = PokerX.Table.whereis("test_table")
 
-    :ok = PokerX.Table.deal(table)
     hand = PokerX.Table.get_state(table).hand |> PokerX.Hand.whereis()
+    :ok = PokerX.Hand.start_game(hand)
 
-    # :timer.sleep(500)
+    # Blinds
+    :ok = PokerX.Hand.bet(hand, player_one, 5)
+    :ok = PokerX.Hand.bet(hand, player_two, 10)
 
-    # :global.whereis_name(elem(hand, 1)) |> Process.exit(:kill)
-    # :timer.sleep(500)
-
+    # Pre-Flop
     :ok = PokerX.Hand.bet(hand, player_thr, 10)
     :ok = PokerX.Hand.bet(hand, player_one, 5)
     :ok = PokerX.Hand.check(hand, player_two)

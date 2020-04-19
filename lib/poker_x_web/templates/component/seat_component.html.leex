@@ -6,16 +6,16 @@
           #<%= seat %> | <%= @seats[seat] || 'Buy In (400$)' %>
         </div>
       </div>
-    <%= end %>
-  <%= else %>
+    <% end %>
+  <% else %>
     <%= for {seat, player} <- @seats do %>
       <div class="w-1/4">
         <div class="bg-purple-300 rounded shadow m-2 p-2 hover:bg-purple-200">
           #<%= seat %> | <%= player.id %>
         </div>
       </div>
-    <%= end %>
-  <%= end %>
+    <% end %>
+  <% end %>
 </div>
 <div class="<%= if (@own?), do: 'bg-green-50'%>"
      id="seat-<%= @id %>">
@@ -32,11 +32,11 @@
                 phx-value-delta="20">
           Sit
         </button>
-      <%= end %>
-    <%= else %>
+      <% end %>
+    <% else %>
       <%= if (@own?) do %>
         <div>This is you! <%= @player.id%></div>
-      <%= end %>
+      <% end %>
       <div>
         <div>Balance: <span class="<%= if @player.balance > 0, do: 'text-green-500', else: 'text-red-500' %>"><%= @player.balance%></span>
         </div>
@@ -54,12 +54,12 @@
           <button type="button" class="btn" phx-target="#seat-<%= @id %>" phx-click="table-cash_out">
             Cash out
           </button>
-        <%= end %>
+        <% end %>
         <button type="button" class="btn" phx-target="#seat-<%= @id %>" phx-click="table-update_balance"
                     phx-value-delta="20">
           Update Balance (20)
         </button>
       </div>
-    <%= end%>
+    <% end %>
   </div>
 </div>

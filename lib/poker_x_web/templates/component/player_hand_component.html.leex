@@ -5,7 +5,7 @@
       <div>
         <button type="button" class="btn w-32" phx-click="leave" phx-target="#hand">Leave</button>
       </div>
-    <%= end %>
+    <% end %>
     <!--
         <div>
             <button type="button" class="btn w-32" phx-click="buy_in" phx-value-amount="400" phx-target="#hand">Buy in (400)</button>
@@ -23,12 +23,12 @@
                     phx-value-amount="<%= @to_call + 20 %>">
             <%= if @hand_state.position == 0 and @to_call <= 0 do %>
               Bet (20)
-            <%= else %>
+            <% else %>
               Raise (20)
-            <%= end %>
+            <% end %>
           </button>
         </div>
-      <%= end%>
+      <% end %>
       <%= if @to_call > 0 do %>
         <div>
           <button type="button" class="btn w-32" phx-target="#hand" phx-click="bet"
@@ -36,27 +36,27 @@
             Call <%= @to_call %>
           </button>
         </div>
-      <%= else %>
+      <% else %>
         <div>
           <button type="button" class="btn w-32" phx-target="#hand" phx-click="check">
             Check
           </button>
         </div>
-      <%= end %>
+      <% end %>
       <%= if @phase != :blinds do %>
         <div>
           <button type="button" class="btn w-32" phx-target="#hand" phx-click="fold">
             Fold
           </button>
         </div>
-      <%= end%>
-    <%= end %>
+      <% end %>
+    <% end %>
   </div>
   <div class="flex flex-1">
     <div class="m-auto flex">
       <%= for card <- @hand do %>
         <div class="<%= PokerXWeb.TableView.card_to_class(card) %> shadow-md overflow-hidden rounded-lg"></div>
-      <%= end%>
+      <% end %>
     </div>
   </div>
 </div>

@@ -1,12 +1,12 @@
 <div id="manage-table">
   <%= cond do %>
-    <%= @hand_state.phase == :initial and length(@table_state.players) >= 2 -> %>
+    <% @hand_state.phase == :initial and length(@table_state.players) >= 2 -> %>
     <button type="button" class="btn" phx-target="#manage-table" phx-click="deal">Deal</button>
-    <%= @hand_state.phase == :initial -> %>
+    <% @hand_state.phase == :initial -> %>
     Waiting for other Players...
-    <%= @hand_state.phase == :showdown or Map.get(@hand_state, :finished, false) == true -> %>
+    <% @hand_state.phase == :showdown or Map.get(@hand_state, :finished, false) == true -> %>
     <button type="button" class="btn" phx-target="#manage-table" phx-click="hand_finished">Hand finished</button>
-    <%= true -> %>
+    <% true -> %>
     Nothing to see here ATM, sorry
-  <%= end %>
+  <% end %>
 </div>

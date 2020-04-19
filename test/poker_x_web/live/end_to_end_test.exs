@@ -40,7 +40,7 @@ defmodule PokerXWeb.EndToEndTest do
     assert PokerXWeb.TableLive.Index == view.module
 
     {:ok, view, html} = live(conn, "/tables/Champions")
-    assert PokerXWeb.TableLive.Index == view.module
+    assert PokerXWeb.TableLive.Show == view.module
   end
 
   test "4 Player Gambling" do
@@ -97,10 +97,10 @@ defmodule PokerXWeb.EndToEndTest do
     # Start the Game!
     table_state = PokerX.Table.get_state(table_pid)
     hand_pid = PokerX.Hand.whereis(table_state.hand)
-    assert %{phase: :initial} = PokerX.Hand.get_state(hand_pid) |> IO.inspect()
+    assert %{phase: :initial} = PokerX.Hand.get_state(hand_pid)
     render_click([List.first(player_views), "#manage-table"], "deal", %{})
 
-    assert %{phase: :blinds} = PokerX.Hand.get_state(hand_pid) |> IO.inspect()
+    assert %{phase: :blinds} = PokerX.Hand.get_state(hand_pid)
 
     index_player_views =
       Enum.with_index(player_views)
@@ -110,7 +110,7 @@ defmodule PokerXWeb.EndToEndTest do
     render_click([index_player_views[0], "#hand"], "bet", %{"amount" => "5"})
     render_click([index_player_views[1], "#hand"], "bet", %{"amount" => "10"})
 
-    assert %{phase: :pre_flop} = PokerX.Hand.get_state(hand_pid) |> IO.inspect()
+    assert %{phase: :pre_flop} = PokerX.Hand.get_state(hand_pid)
     # Cards should now be available
 
     active_p = active_player(hand_pid)
@@ -120,7 +120,7 @@ defmodule PokerXWeb.EndToEndTest do
   end
 
   defp active_player(hand_pid) do
-    hand_state = PokerX.Hand.get_state(hand_pid) |> IO.inspect()
+    hand_state = PokerX.Hand.get_state(hand_pid)
     player = Enum.find(hand_state.players, &(&1.active == true))
   end
 

@@ -7,12 +7,12 @@ defmodule PokerXWeb.Plugs.Authenticate do
   def init(default), do: default
 
   def call(conn, _opts) do
-    if !is_logged_in?(conn) do
+    if is_logged_in?(conn) do
+      conn
+    else
       conn
       |> redirect(to: Helper.session_path(conn, :login))
       |> halt()
-    else
-      conn
     end
   end
 end

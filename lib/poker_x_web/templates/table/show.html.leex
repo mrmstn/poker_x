@@ -17,7 +17,7 @@
       </div>
     </div>
   </div>
-<%= end %>
+<% end %>
 <div class="md:flex md:flex-wrap mb-4">
   <div class="md:w-60 bg-white shadow overflow-hidden rounded-md px-4 py-2">
     <h1 class="text leading-6 text-lg text-gray-800 border-b">
@@ -55,23 +55,23 @@
                 #<%= seat %> | <%= @seats[seat].id %>
               </div>
             </div>
-          <%= else %>
+          <% else %>
             <div class="w-1/2 sm:w-1/3 md:w-1/3" phx-click="sit" phx-value-seat="<%= seat %>">
               <div class="bg-green-300 border rounded shadow m-2 p-2 hover:bg-green-200">
                 #<%= seat %> | <%= if @seats[seat], do: @seats[seat].id, else: 'Buy In (400$)' %>
                 </div>
               </div>
-            <%= end %>
-          <%= end %>
-        <%= else %>
+            <% end %>
+          <% end %>
+        <% else %>
           <%= for {seat, player} <- @seats do %>
             <div class="w-1/2 sm:w-1/3 md:w-1/3">
               <div class="<%= if player.balance > 10, do: 'bg-green-300', else: 'bg-red-300'%> rounded shadow m-2 p-2">
                 #<%= seat %> | <%= player.id %> <%= player.balance %>
               </div>
             </div>
-          <%= end %>
-        <%= end %>
+          <% end %>
+        <% end %>
       </div>
     </div>
   </div>
@@ -84,7 +84,7 @@
         </h1>
         <%= live_component @socket, PokerXWeb.TableComponent, id: @hand_id, hand_state: @hand_state, table_state: @table_state %>
       </div>
-    <%= end %>
+    <% end %>
   </div>
   <%= if @sitting? do%>
     <div class="bg-white rounded p-4 mt-4 shadow">
@@ -95,4 +95,4 @@
     phase: @hand_state.phase
     %>
     </div>
-  <%= end %>
+  <% end %>

@@ -2,11 +2,11 @@ defmodule PokerX.Table do
   use GenServer
   use PokerX.Subscribable
 
-  def start_link(table, sup, storage, num_seats) do
+  def start_link([table, sup, storage, num_seats]) do
     GenServer.start_link(__MODULE__, [table, sup, storage, num_seats], name: via_tuple(table))
   end
 
-  defp via_tuple(table), do: {:via, :global, {:table, table}}
+  def via_tuple(table), do: {:via, :global, {:table, table}}
 
   def whereis(table) do
     :global.whereis_name({:table, table})
@@ -37,16 +37,8 @@ defmodule PokerX.Table do
   end
 
   ### GenServer callbacks
-  def init([table, sup, storage, num_seats]) do
-    {:ok,
-     %{table: table, sup: sup, storage: storage, num_seats: num_seats, hand: nil, dealer: nil},
-     {:continue, :init_hand}}
-  end
-
-  def handle_continue(:init_hand, state) do
-    {:ok, hand} = PokerX.Hand.Supervisor.start_hand(state.sup, self())
-
-    {:noreply, %{state | hand: hand}}
+  def init([table, hand, storage, num_seats]) do
+    {:ok, %{table: table, storage: storage, num_seats: num_seats, hand: hand, dealer: nil}}
   end
 
   def handle_call({:sit, _, seat}, _from, state = %{num_seats: num_seats})
@@ -122,7 +114,7 @@ defmodule PokerX.Table do
 
   def handle_call({:update_balance, player, delta}, _from, state) when delta >= 0 do
     case get_player(state, player) do
-      {:ok, %{balance: balance}} ->
+      {:ok, %{balance: _balance}} ->
         modify_balance(state, player, delta)
         state = notify_subscribers(state, {:update_balance, player, delta}, state.table)
         {:reply, :ok, state}

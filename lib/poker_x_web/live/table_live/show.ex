@@ -2,13 +2,10 @@ defmodule PokerXWeb.TableLive.Show do
   use Phoenix.LiveView
   use Phoenix.HTML
 
-  alias PokerXWeb.UserLive
-  alias PokerXWeb.TableView
-  alias PokerXWeb.Router.Helpers, as: Routes
-  alias PokerX.Accounts
   alias Phoenix.LiveView.Socket
-  alias PokerXWeb.{TableView, Presence}
   alias Phoenix.Socket.Broadcast
+  alias PokerXWeb.Presence
+  alias PokerXWeb.TableView
 
   @default_values [
     page_title: nil,
@@ -43,8 +40,6 @@ defmodule PokerXWeb.TableLive.Show do
   def handle_params(%{"id" => id}, _url, socket) do
     if connected?(socket) do
       Presence.track(self(), "table_users:" <> id, socket.assigns.player_name, %{})
-      |> IO.inspect()
-
       Phoenix.PubSub.subscribe(PokerX.PubSub, "table_users:" <> id)
     end
 
@@ -78,7 +73,7 @@ defmodule PokerXWeb.TableLive.Show do
     socket
   end
 
-  defp fetch(%Socket{assigns: %{id: id}} = socket) do
+  defp fetch(%Socket{} = socket) do
     socket
     |> fetch_presence
     |> fetch_table

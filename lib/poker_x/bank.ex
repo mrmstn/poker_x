@@ -20,6 +20,10 @@ defmodule PokerX.Bank do
     GenServer.call(@name, {:balance, player})
   end
 
+  def init(init_arg) do
+    {:ok, init_arg}
+  end
+
   def handle_cast({:deposit, player, amount}, state) when amount >= 0 do
     state =
       Map.update(state, player, amount, fn current -> current + amount end)

@@ -1,13 +1,12 @@
 defmodule PokerXWeb.TableLive.Index do
   use Phoenix.LiveView
 
-  alias PokerX.Accounts
-  alias PokerX.Overwatch
-  alias PokerXWeb.{TableView, Presence}
   alias Phoenix.Socket.Broadcast
+  alias PokerX.Overwatch
+  alias PokerXWeb.Presence
+  alias PokerXWeb.TableView
 
-  def mount(assigns, %{"user_id" => name}, socket) do
-    PokerX.Accounts.subscribe()
+  def mount(_assigns, %{"user_id" => name}, socket) do
     Phoenix.PubSub.subscribe(PokerX.PubSub, "tables")
     Presence.track(self(), "lobby", name, %{})
 
@@ -60,7 +59,7 @@ defmodule PokerXWeb.TableLive.Index do
   #    {:noreply, fetch(socket)}
   #  end
   #
-  def handle_event("toggle_modal", id, socket) do
+  def handle_event("toggle_modal", _values, socket) do
     {:noreply, assign(socket, show_modal: !socket.assigns.show_modal)}
   end
 
@@ -71,15 +70,15 @@ defmodule PokerXWeb.TableLive.Index do
     {:noreply, fetch(socket)}
   end
 
+  def handle_event(_event, _id, socket) do
+    {:noreply, socket}
+  end
+
   def reset(socket) do
     assign(socket, new_table: %{name: "", player_count: 0})
   end
 
   def handle_params(_params, _uri, "confirm-boom", %{assigns: %{show_modal: _}} = socket) do
     {:noreply, assign(socket, show_modal: true)}
-  end
-
-  def handle_event(event, id, socket) do
-    {:noreply, socket}
   end
 end

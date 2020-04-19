@@ -69,7 +69,7 @@
                     </div>
                   </div>
                 </div>
-              <%= end %>
+              <% end %>
             </div>
           </div>
           <div class="-mr-2 flex md:hidden">
@@ -117,7 +117,7 @@
              role="menuitem">Sign out</a>
             </div>
           </div>
-        <%= end %>
+        <% end %>
       </div>
     </nav>
     <%= if assigns[:page_title] do %>
@@ -128,7 +128,7 @@
           </h1>
         </div>
       </header>
-    <%= end %>
+    <% end %>
     <main>
       <!-- Phoenix Default Stuff -->
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>

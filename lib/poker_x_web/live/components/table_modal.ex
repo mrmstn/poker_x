@@ -7,7 +7,7 @@ defmodule DemoWeb.LiveComponent.TableModal do
 
   def render(assigns), do: PokerXWeb.ComponentView.render("table_modal.html", assigns)
 
-  def update(%{id: _id} = assigns, socket) do
+  def update(_assigns, socket) do
     {:ok, socket}
   end
 

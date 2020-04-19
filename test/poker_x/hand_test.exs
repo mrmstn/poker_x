@@ -1,5 +1,6 @@
 defmodule PokerX.HandTest do
   use ExUnit.Case, async: false
+  alias PokerX.Deck.Card
 
   defp cards do
     # player one's cards
@@ -11,7 +12,7 @@ defmodule PokerX.HandTest do
        "Js Ts " <>
        "Ad 9h 8s Jh Qd")
     |> String.split()
-    |> Enum.map(&PokerX.Deck.Card.from_string/1)
+    |> Enum.map(&Card.from_string/1)
   end
 
   setup do
@@ -35,7 +36,7 @@ defmodule PokerX.HandTest do
     {:error, %{reason: :not_enough}} = PokerX.Hand.bet(hand, player_two, 5)
     :ok = PokerX.Hand.bet(hand, player_two, 10)
 
-    %{phase: :pre_flop, players: hand_players} = PokerX.Hand.get_state(hand) |> IO.inspect()
+    %{phase: :pre_flop, players: hand_players} = PokerX.Hand.get_state(hand)
 
     assert [
              %{active: true, id: :three, position: 2, to_call: 10},
@@ -81,7 +82,6 @@ defmodule PokerX.HandTest do
     :ok = PokerX.Hand.bet(hand, player_thr, 50)
 
     %{phase: :showdown, ranked_players: ranked_players} = PokerX.Hand.get_state(hand)
-    IO.inspect(ranked_players)
     :ok = PokerX.Hand.finish_game(hand)
   end
 end

@@ -6,7 +6,6 @@ defmodule PokerXWeb.LiveComponentHelper do
   end
 
   def handle_poker_response({:error, %{reason: reason}}, socket) do
-    IO.inspect({:error, %{reason: reason}})
     send(self(), {__MODULE__, {:error, %{reason: reason}}})
 
     {:noreply, socket}

@@ -16,7 +16,6 @@ defmodule PokerX.Application do
       # {PokerX.Worker, arg},
       {Registry, keys: :unique, name: Registry.ViaTest},
       PokerX.PlayerMapping,
-      PokerX.Accounts.UserManager,
       PokerX.Bank,
       {PokerX.Table.Supervisor, ["Champions", 10]}
     ]

@@ -16,10 +16,11 @@ defmodule PokerX.PlayerMapping do
     GenServer.call(@name, {:attach_browser, pid})
   end
 
-  def list_browser_sessions() do
+  def list_browser_sessions do
     GenServer.call(@name, {:list_sessions})
   end
 
+  @impl true
   def handle_call({:attach_browser, pid}, _caller, state) do
     Process.monitor(pid)
     {:reply, :ok, [pid | state]}
@@ -29,7 +30,8 @@ defmodule PokerX.PlayerMapping do
     {:reply, state, state}
   end
 
-  def handle_info({:DOWN, ref, :process, pid, {:shutdown, :closed}}, state) do
+  @impl true
+  def handle_info({:DOWN, _ref, :process, pid, {:shutdown, :closed}}, state) do
     state = List.delete(state, pid)
     {:noreply, state}
   end
@@ -39,8 +41,7 @@ defmodule PokerX.PlayerMapping do
     {:noreply, state}
   end
 
-  def handle_info(msg, state) do
-    IO.inspect(msg)
+  def handle_info(_msg, state) do
     {:noreply, state}
   end
 end
