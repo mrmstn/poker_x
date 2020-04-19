@@ -1,5 +1,5 @@
 <div id="manage-table">
-    <%= cond do %>
+  <%= cond do %>
     <%= @hand_state.phase == :initial and length(@table_state.players) >= 2 -> %>
     <button type="button" class="btn" phx-target="#manage-table" phx-click="deal">Deal</button>
     <%= @hand_state.phase == :initial -> %>
@@ -8,5 +8,5 @@
     <button type="button" class="btn" phx-target="#manage-table" phx-click="hand_finished">Hand finished</button>
     <%= true -> %>
     Nothing to see here ATM, sorry
-    <%= end %>
+  <%= end %>
 </div>

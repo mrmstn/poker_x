@@ -1,102 +1,98 @@
 <%= if @flash != %{} do %>
-<div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
+  <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
     <div class="flex">
-        <div class="flex-shrink-0">
-            <svg class="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd"
+      <div class="flex-shrink-0">
+        <svg class="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd"
                       d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
                       clip-rule="evenodd"/>
-            </svg>
-        </div>
-        <div class="ml-3">
-            <p class="text-sm leading-5 text-yellow-700">
-            <p><%= live_flash(@flash, :notice) %></p>
-            <p><%= live_flash(@flash, :error) %></p>
-            <p><%= live_flash(@flash, :info) %></p>
-            </p>
-        </div>
+        </svg>
+      </div>
+      <div class="ml-3">
+        <p class="text-sm leading-5 text-yellow-700">
+          <p><%= live_flash(@flash, :notice) %></p>
+          <p><%= live_flash(@flash, :error) %></p>
+          <p><%= live_flash(@flash, :info) %></p>
+        </p>
+      </div>
     </div>
-</div>
+  </div>
 <%= end %>
-
-
 <div class="md:flex md:flex-wrap mb-4">
-    <div class="md:w-60 bg-white shadow overflow-hidden rounded-md px-4 py-2">
-        <h1 class="text leading-6 text-lg text-gray-800 border-b">
-            About this table </h1>
-        <div class="flex pt-2">
-            <div class="w-1/2">Name:</div>
-            <div class="w-1/2 font-semibold text-right"><%= @table_id %></div>
-        </div>
-        <div class="flex pt-2">
-            <div class="w-1/2">Players:</div>
-            <div class="w-1/2 font-semibold text-right <%= if (@count_players < @num_seats), do: 'text-green-500', else: 'text-red-500' %>">
-                <%= @count_players%>/<%= @num_seats%>
-            </div>
-        </div>
-        <div class="flex pt-2">
-            <div class="w-1/2">Bank Balance:</div>
-            <div class="w-1/2 font-semibold text-right <%= if (@bank_balance > 0), do: 'text-green-500', else: 'text-red-500' %>">
-                <%= @bank_balance %>
-            </div>
-        </div>
-        <div class="flex pt-2">
-            <div class="w-1/2">Watching:</div>
-            <div class="w-1/2 font-semibold text-right"><%= @on_site |> Enum.join(", ") %></div>
-        </div>
+  <div class="md:w-60 bg-white shadow overflow-hidden rounded-md px-4 py-2">
+    <h1 class="text leading-6 text-lg text-gray-800 border-b">
+      About this table </h1>
+    <div class="flex pt-2">
+      <div class="w-1/2">Name:</div>
+      <div class="w-1/2 font-semibold text-right"><%= @table_id %></div>
     </div>
-    <div class="flex-1 bg-white shadow overflow-hidden rounded-md px-4 py-2 md:ml-2">
-        <h1 class="text leading-6 text-lg text-gray-800 border-b">
-            Seats </h1>
-        <div class="flex flex-wrap mb-2">
-            <%= if @player_state == :watching do %>
-            <%= for seat <- 1..@num_seats do %>
-            <%= if @seats[seat] do %>
+    <div class="flex pt-2">
+      <div class="w-1/2">Players:</div>
+      <div class="w-1/2 font-semibold text-right <%= if (@count_players < @num_seats), do: 'text-green-500', else: 'text-red-500' %>">
+        <%= @count_players%>/<%= @num_seats%>
+      </div>
+    </div>
+    <div class="flex pt-2">
+      <div class="w-1/2">Bank Balance:</div>
+      <div class="w-1/2 font-semibold text-right <%= if (@bank_balance > 0), do: 'text-green-500', else: 'text-red-500' %>">
+        <%= @bank_balance %>
+      </div>
+    </div>
+    <div class="flex pt-2">
+      <div class="w-1/2">Watching:</div>
+      <div class="w-1/2 font-semibold text-right"><%= @on_site |> Enum.join(", ") %></div>
+    </div>
+  </div>
+  <div class="flex-1 bg-white shadow overflow-hidden rounded-md px-4 py-2 md:ml-2">
+    <h1 class="text leading-6 text-lg text-gray-800 border-b">
+      Seats </h1>
+    <div class="flex flex-wrap mb-2">
+      <%= if @player_state == :watching do %>
+        <%= for seat <- 1..@num_seats do %>
+          <%= if @seats[seat] do %>
             <div class="w-1/2 sm:w-1/3 md:w-1/3">
-                <div class="bg-gray-300 border rounded shadow m-2 p-2">
-                    #<%= seat %> | <%= @seats[seat].id %>
-                </div>
+              <div class="bg-gray-300 border rounded shadow m-2 p-2">
+                #<%= seat %> | <%= @seats[seat].id %>
+              </div>
             </div>
-            <%= else %>
+          <%= else %>
             <div class="w-1/2 sm:w-1/3 md:w-1/3" phx-click="sit" phx-value-seat="<%= seat %>">
-                <div class="bg-green-300 border rounded shadow m-2 p-2 hover:bg-green-200">
-                    #<%= seat %> | <%= if @seats[seat], do: @seats[seat].id, else: 'Buy In (400$)' %>
+              <div class="bg-green-300 border rounded shadow m-2 p-2 hover:bg-green-200">
+                #<%= seat %> | <%= if @seats[seat], do: @seats[seat].id, else: 'Buy In (400$)' %>
                 </div>
-            </div>
+              </div>
             <%= end %>
-            <%= end %>
-            <%= else %>
-            <%= for {seat, player} <- @seats do %>
+          <%= end %>
+        <%= else %>
+          <%= for {seat, player} <- @seats do %>
             <div class="w-1/2 sm:w-1/3 md:w-1/3">
-                <div class="<%= if player.balance > 10, do: 'bg-green-300', else: 'bg-red-300'%> rounded shadow m-2 p-2">
-                    #<%= seat %> | <%= player.id %> <%= player.balance %>
-                </div>
+              <div class="<%= if player.balance > 10, do: 'bg-green-300', else: 'bg-red-300'%> rounded shadow m-2 p-2">
+                #<%= seat %> | <%= player.id %> <%= player.balance %>
+              </div>
             </div>
-            <%= end %>
-            <%= end %>
-        </div>
+          <%= end %>
+        <%= end %>
+      </div>
     </div>
-</div>
-
-<div class="bg-white rounded p-4 shadow">
+  </div>
+  <div class="bg-white rounded p-4 shadow">
     <%= live_component @socket, PokerXWeb.BoardComponent, id: @hand_id, hand: @hand_state %>
     <%= if @player_state in [:playing, :sitting] do %>
-    <div class="mt-4">
+      <div class="mt-4">
         <h1 class="text leading-6 text-lg text-gray-800 border-b mb-3">
-            Table Actions
+          Table Actions
         </h1>
         <%= live_component @socket, PokerXWeb.TableComponent, id: @hand_id, hand_state: @hand_state, table_state: @table_state %>
-    </div>
+      </div>
     <%= end %>
-</div>
-
-<%= if @sitting? do%>
-<div class="bg-white rounded p-4 mt-4 shadow">
-    <%= live_component @socket, PokerXWeb.PlayerHandComponent,
+  </div>
+  <%= if @sitting? do%>
+    <div class="bg-white rounded p-4 mt-4 shadow">
+      <%= live_component @socket, PokerXWeb.PlayerHandComponent,
     id: {@hand_id, @player_name},
     player_hand: @hand_players[@player_name] || %{},
     table_pid: @table_pid,
     phase: @hand_state.phase
     %>
-</div>
-<%= end %>
+    </div>
+  <%= end %>

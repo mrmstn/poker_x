@@ -1,67 +1,65 @@
 <div class="flex flex-wrap mb-2">
-    <%= if @player_state == :watching do %>
+  <%= if @player_state == :watching do %>
     <%= for seat <- 1..@num_seats do %>
-    <div class="w-1/4" phx-click="sit" phx-value-amount="1000" phx-target="#<%= @id %>">
+      <div class="w-1/4" phx-click="sit" phx-value-amount="1000" phx-target="#<%= @id %>">
         <div class="bg-red-600 border-red-200 border-2 rounded shadow m-2 p-2 hover:bg-red-400">
-            #<%= seat %> | <%= @seats[seat] || 'Buy In (400$)' %>
+          #<%= seat %> | <%= @seats[seat] || 'Buy In (400$)' %>
         </div>
-    </div>
+      </div>
     <%= end %>
-    <%= else %>
+  <%= else %>
     <%= for {seat, player} <- @seats do %>
-    <div class="w-1/4">
+      <div class="w-1/4">
         <div class="bg-purple-300 rounded shadow m-2 p-2 hover:bg-purple-200">
-            #<%= seat %> | <%= player.id %>
+          #<%= seat %> | <%= player.id %>
         </div>
-    </div>
+      </div>
     <%= end %>
-    <%= end %>
+  <%= end %>
 </div>
-
-
 <div class="<%= if (@own?), do: 'bg-green-50'%>"
      id="seat-<%= @id %>">
-    <h1 class="text leading-6 text-lg text-gray-800 border-b mb-3">
-        Seat #<%= @id %>
-    </h1>
-    <div>
-        <%= if @free? do%>
-        <%= if @can_sit? do%>
+  <h1 class="text leading-6 text-lg text-gray-800 border-b mb-3">
+    Seat #<%= @id %>
+  </h1>
+  <div>
+    <%= if @free? do%>
+      <%= if @can_sit? do%>
         <button type="button"
                 class="btn"
                 phx-target="#seat-<%= @id %>"
                 phx-click="sit"
                 phx-value-delta="20">
-            Sit
+          Sit
         </button>
-        <%= end %>
-        <%= else %>
-        <%= if (@own?) do %>
+      <%= end %>
+    <%= else %>
+      <%= if (@own?) do %>
         <div>This is you! <%= @player.id%></div>
-        <%= end %>
-        <div>
-            <div>Balance: <span class="<%= if @player.balance > 0, do: 'text-green-500', else: 'text-red-500' %>"><%= @player.balance%></span>
-            </div>
+      <%= end %>
+      <div>
+        <div>Balance: <span class="<%= if @player.balance > 0, do: 'text-green-500', else: 'text-red-500' %>"><%= @player.balance%></span>
         </div>
-        <div>
-            <button type="button" class="btn" phx-target="#seat-<%= @id %>" phx-click="leave"
+      </div>
+      <div>
+        <button type="button" class="btn" phx-target="#seat-<%= @id %>" phx-click="leave"
                     phx-value-delta="20">
-                Leave
-            </button>
-            <button type="button" class="btn" phx-target="#seat-<%= @id %>" phx-click="table-buy_in"
+          Leave
+        </button>
+        <button type="button" class="btn" phx-target="#seat-<%= @id %>" phx-click="table-buy_in"
                     phx-value-amount="400">
-                Buy in (400)
-            </button>
-            <%= if @player.balance > 0 do %>
-            <button type="button" class="btn" phx-target="#seat-<%= @id %>" phx-click="table-cash_out">
-                Cash out
-            </button>
-            <%= end %>
-            <button type="button" class="btn" phx-target="#seat-<%= @id %>" phx-click="table-update_balance"
+          Buy in (400)
+        </button>
+        <%= if @player.balance > 0 do %>
+          <button type="button" class="btn" phx-target="#seat-<%= @id %>" phx-click="table-cash_out">
+            Cash out
+          </button>
+        <%= end %>
+        <button type="button" class="btn" phx-target="#seat-<%= @id %>" phx-click="table-update_balance"
                     phx-value-delta="20">
-                Update Balance (20)
-            </button>
-        </div>
-        <%= end%>
-    </div>
+          Update Balance (20)
+        </button>
+      </div>
+    <%= end%>
+  </div>
 </div>
