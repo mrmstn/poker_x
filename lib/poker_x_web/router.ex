@@ -38,6 +38,7 @@ defmodule PokerXWeb.Router do
 
     live "/tables", TableLive.Index
     live "/tables/:id", TableLive.Show
+    post "/logout", SessionController, :unload_session
   end
 
   # Other scopes may use custom stacks.
