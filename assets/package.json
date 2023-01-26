@@ -22,7 +22,7 @@
     "babel-loader": "^8.0.0",
     "child-replace-with-polyfill": "^1.0.1",
     "classlist-polyfill": "^1.2.0",
-    "copy-webpack-plugin": "^5.1.1",
+    "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^3.4.2",
     "formdata-polyfill": "^3.0.19",
     "mdn-polyfills": "^5.20.0",
